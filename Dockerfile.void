@@ -1,0 +1,20 @@
+FROM voidlinux/voidlinux
+RUN xbps-install -y -Su bash clang make cmake git freetype-devel harfbuzz libharfbuzz ffmpeg-devel harfbuzz-devel liblzma-devel libopenal-devel libusb-devel libvncserver-devel libxkbcommon-devel sqlite-devel vlc-devel MesaLib-devel wayland-devel wayland-protocols LuaJIT-devel-2.1.0beta3_1 tesseract-ocr-devel leptonica-devel pkg-config tesseract-ocr-eng tesseract-ocr-basic libespeak-devel libxcb-devel xcb-util-devel xcb-util-wm-devel
+
+WORKDIR .
+ADD ./arcan /arcan
+ADD ./appl /arcan/docker/appl
+
+# build the core engine
+RUN cd /arcan; mkdir build; cd build; cmake -DSTATIC_SQLITE3=ON -DSTATIC_OPENAL=ON -DHYBRID_HEADLESS=ON ../src; make VERBOSE=1 ; make install ; cd .. ; rm -rf build;
+
+# add extra tools
+RUN cd /arcan/src/tools/netproxy ; mkdir build ; cd build ; cmake .. ; make ; make install
+RUN cd /arcan/src/tools/waybridge ; mkdir build ; cd build ; cmake .. ; make ; make install
+
+# setup folders and user paths that the arcan-listen script will assume
+RUN mkdir -p /arcan/docker/resources ; mv /arcan/data/resources /arcan/docker/resources
+
+# add durden and console as the possible WMs
+ADD ./durden/durden /arcan/docker/appl/durden
+RUN mv /arcan/data/console /arcan/docker/appl/console

@@ -1,0 +1,4 @@
+config.db
+include
+lib
+*.deb
