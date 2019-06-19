@@ -17,4 +17,4 @@ RUN mkdir -p /arcan/docker/resources ; mv /arcan/data/resources /arcan/docker/re
 
 # add durden and console as the possible WMs
 ADD ./durden/durden /arcan/docker/appl/durden
-RUN mv /arcan/data/console /arcan/docker/appl/console
+RUN mv /arcan/data/appl/console /arcan/docker/appl/console
