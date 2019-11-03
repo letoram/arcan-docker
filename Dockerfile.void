@@ -9,7 +9,6 @@ ADD ./appl /arcan/docker/appl
 RUN cd /arcan; mkdir build; cd build; cmake -DSTATIC_SQLITE3=ON -DSTATIC_OPENAL=ON -DHYBRID_HEADLESS=ON ../src; make VERBOSE=1 ; make install ; cd .. ; rm -rf build;
 
 # add extra tools
-RUN cd /arcan/src/tools/netproxy ; mkdir build ; cd build ; cmake .. ; make ; make install
 RUN cd /arcan/src/tools/waybridge ; mkdir build ; cd build ; cmake .. ; make ; make install
 
 # setup folders and user paths that the arcan-listen script will assume

@@ -1,4 +1,4 @@
-FROM arcan/ubuntu:latest
+FROM arcan:ubuntu
 WORKDIR .
 ADD ./tobii /tobii
 RUN apt-get update
@@ -7,10 +7,10 @@ RUN dpkg --unpack /tobii/tobii_engine_linux-0.1.6.193_rc-Linux.deb /tobii/tobiiu
 RUN rm /var/lib/dpkg/info/*.postinst
 RUN dpkg --configure tobii_engine_linux tobiiusbservice
 RUN cp -r /tobii/include/tobii /usr/include
-RUN cp -r /tobii/lib/x64/* /usr/lib/x86_64-linux-gnu
+RUN cp -r /tobii/lib/* /usr/lib/x86_64-linux-gnu
 RUN cp /tobii/config.db /usr/share/tobii_engine/db/config.db
 COPY start_et.sh /
-ADD ./fsrv /fsrv
+ADD ./arcan-devices/tobii_4c /fsrv
 RUN mkdir /var/run/tobiiusb
 RUN cd /fsrv; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug ..; make ; cp drv_eyetrack /usr/bin;
 ENTRYPOINT ["/start_et.sh"]

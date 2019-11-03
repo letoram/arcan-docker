@@ -2,6 +2,8 @@ FROM alpine
 
 RUN apk add --update build-base bash git cmake freetype-dev openal-soft-dev sqlite-dev mesa-gl mesa-dri-swrast mesa-dev mesa-gl mesa-osmesa mesa-dri-intel mesa-dri-nouveau mesa-dri-ati libxkbcommon-dev harfbuzz-dev leptonica-dev tesseract-ocr-dev libvncserver-dev vlc-dev wayland-dev wayland-protocols xz-dev ffmpeg-dev xcb-util-dev xcb-util-wm-dev
 
+RUN apk add luajit-dev
+
 WORKDIR .
 ADD ./arcan /arcan
 ADD ./appl /arcan/docker/appl
@@ -10,7 +12,6 @@ ADD ./appl /arcan/docker/appl
 RUN cd /arcan; mkdir build; cd build; cmake -DSTATIC_SQLITE3=ON -DSTATIC_OPENAL=ON -DHYBRID_HEADLESS=ON ../src; make VERBOSE=1 ; make install ; cd .. ; rm -rf build;
 
 # add extra tools
-RUN cd /arcan/src/tools/netproxy ; mkdir build ; cd build ; cmake .. ; make ; make install
 RUN cd /arcan/src/tools/waybridge ; mkdir build ; cd build ; cmake .. ; make ; make install
 
 # setup folders and user paths that the arcan-listen script will assume

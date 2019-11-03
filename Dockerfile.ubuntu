@@ -9,11 +9,10 @@ WORKDIR .
 ADD ./arcan /arcan
 ADD ./appl /arcan/docker/appl
 
-RUN cd /arcan; mkdir build; cd build; cmake -DSTATIC_SQLITE3=ON -DSTATIC_OPENAL=ON -DHYBRID_HEADLESS=ON -DCMAKE_BUILD_TYPE=Debug ../src; make VERBOSE=1 ; make install ; cd .. ; rm -rf build;
+RUN cd /arcan; mkdir build; cd build; cmake -DSTATIC_OPENAL=ON -DHYBRID_HEADLESS=ON -DCMAKE_BUILD_TYPE=Debug ../src; make VERBOSE=1 ; make install ; cd .. ; rm -rf build;
 
 # add extra tools
-RUN cd /arcan/src/tools/netproxy ; mkdir build ; cd build ; cmake .. ; make ; make install
-RUN cd /arcan/src/tools/waybridge ; mkdir build ; cd build ; cmake .. ; make ; make install
+#RUN cd /arcan/src/tools/waybridge ; mkdir build ; cd build ; cmake .. ; make ; make install
 
 RUN mkdir -p /arcan/docker/resources ; mv /arcan/data/resources /arcan/docker/resources
 
