@@ -1,0 +1,20 @@
+FROM ubuntu
+
+RUN apt-get update
+RUN apt-get install -y git pkg-config clang cmake libfreetype6-dev
+RUN apt-get install -y strace gdb
+
+WORKDIR .
+ADD ./arcan /arcan
+ADD ./appl /arcan/docker/appl
+
+RUN cd /arcan; mkdir build; cd build; cmake -DCLIENT_LIBRARY_BUILD=ON -DCMAKE_BUILD_TYPE=Debug ../src; make VERBOSE=1 ; make install ; cd .. ; rm -rf build;
+
+# add extra tools
+#RUN cd /arcan/src/tools/waybridge ; mkdir build ; cd build ; cmake .. ; make ; make install
+
+RUN mkdir -p /arcan/docker/resources ; mv /arcan/data/resources /arcan/docker/resources
+
+# add durden and console as the possible WMs
+ADD ./durden/durden /arcan/docker/appl/durden
+RUN mv /arcan/data/appl/console /arcan/docker/appl/console
